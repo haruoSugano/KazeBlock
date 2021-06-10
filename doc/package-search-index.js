@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"db"},{"l":"model.dao"},{"l":"model.dao.impl"},{"l":"model.entities"},{"l":"view"}];updateSearchResults();

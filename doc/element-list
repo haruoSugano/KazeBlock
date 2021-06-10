@@ -1,0 +1,5 @@
+db
+model.dao
+model.dao.impl
+model.entities
+view
