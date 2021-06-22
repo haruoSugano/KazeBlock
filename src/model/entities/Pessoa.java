@@ -9,6 +9,8 @@ public class Pessoa implements Comparable<Pessoa> {
 	private Integer idade;
 	private String profissao;
 	private String cpf;
+	private String telefone;
+	private String email;
 	private Boolean areaSaude;
 	private String logradouro;
 	private String numero;
@@ -24,7 +26,7 @@ public class Pessoa implements Comparable<Pessoa> {
 	}
 
 	public Pessoa(Integer id,String nome, Integer idade, String profissao, String cpf, Boolean areaSaude, String logradouro, String numero,
-			String cidade, String uf, String cep, Date nascimento, Date dataVacinado, Boolean vacinado, Integer nivel) {
+			String cidade, String uf, String cep, Date nascimento, Date dataVacinado, Boolean vacinado, Integer nivel, String telefone, String email) {
 		this.id = id;
 		this.nome = nome;
 		this.idade = idade;
@@ -40,6 +42,8 @@ public class Pessoa implements Comparable<Pessoa> {
 		this.dataVacinado = dataVacinado;
 		this.vacinado = vacinado;
 		this.nivel = nivel;
+		this.telefone = telefone;
+		this.email = email;
 		}
 	
 	public Pessoa(Integer id) {
@@ -178,11 +182,29 @@ public class Pessoa implements Comparable<Pessoa> {
 	}
 
 	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "Pessoa [nome=" + nome + ", cpf=" + cpf + ", nivel=" + nivel + "]";
 	}
-
+	/**
+	 * Usado o compareTo para ordenar o nivel de prioridade:
+	 */
 	@Override
 	public int compareTo(Pessoa o) {
 		return -nivel.compareTo(o.nivel);

@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
+import java.awt.Font;
 
 public class TelaPrincipal_Adm extends JFrame {
 
@@ -35,7 +36,7 @@ public class TelaPrincipal_Adm extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal_Adm() {
-		setTitle("Administrador");
+		setTitle("Administrador - Tela Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 347, 405);
 		contentPane = new JPanel();
@@ -45,6 +46,7 @@ public class TelaPrincipal_Adm extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton cadastrarUsuarioButton = new JButton("Cadastrar/Remover Usu\u00E1rio");
+		cadastrarUsuarioButton.setFont(new Font("Arial", Font.BOLD, 15));
 		cadastrarUsuarioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Acessar Cadastrar Usuario:
@@ -57,6 +59,7 @@ public class TelaPrincipal_Adm extends JFrame {
 		contentPane.add(cadastrarUsuarioButton);
 		
 		JButton btnNewButton_1 = new JButton("Cadastrar Paciente");
+		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 15));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CadastrarPaciente cadastrarPaciente = new CadastrarPaciente();
@@ -68,6 +71,7 @@ public class TelaPrincipal_Adm extends JFrame {
 		contentPane.add(btnNewButton_1);
 		
 		JButton gerarRelatorioButton = new JButton("Gerar Relat\u00F3rio");
+		gerarRelatorioButton.setFont(new Font("Arial", Font.BOLD, 15));
 		gerarRelatorioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GerarRelatorio gerar = new GerarRelatorio();
@@ -79,6 +83,7 @@ public class TelaPrincipal_Adm extends JFrame {
 		contentPane.add(gerarRelatorioButton);
 		
 		JButton visualizarFilaButton = new JButton("Visualizar Fila");
+		visualizarFilaButton.setFont(new Font("Arial", Font.BOLD, 15));
 		visualizarFilaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VisualizarFila_Adm visualizarFila = new VisualizarFila_Adm();
@@ -90,6 +95,7 @@ public class TelaPrincipal_Adm extends JFrame {
 		contentPane.add(visualizarFilaButton);
 		
 		JButton sairButton = new JButton("Sair");
+		sairButton.setFont(new Font("Arial", Font.BOLD, 15));
 		sairButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaLogin telaLogin = new TelaLogin();

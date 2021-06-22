@@ -33,9 +33,9 @@ public class PessoaDaoJDBC implements PessoaDao {
 		try {
 			ps = conn.prepareStatement(
 					"INSERT INTO tb_pessoa "
-					+"(nome, idade, profissao, cpf, nascimento, areaSaude, logradouro, numero, cidade, uf, cep, nivel_prioridade, vacinado) "
+					+"(nome, idade, profissao, cpf, nascimento, areaSaude,telefone, email, logradouro, numero, cidade, uf, cep, nivel_prioridade, vacinado) "
 					+"VALUES "
-					+"(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					+"(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			
 			ps.setString(1, pessoa.getNome());
@@ -44,13 +44,15 @@ public class PessoaDaoJDBC implements PessoaDao {
 			ps.setString(4, pessoa.getCpf());
 			ps.setDate(5,new java.sql.Date(pessoa.getNascimento().getTime()));
 			ps.setBoolean(6, pessoa.getAreaSaude());
-			ps.setString(7, pessoa.getLogradouro());
-			ps.setString(8, pessoa.getNumero());
-			ps.setString(9, pessoa.getCidade());
-			ps.setString(10, pessoa.getUf());
-			ps.setString(11, pessoa.getCep());
-			ps.setInt(12, pessoa.getNivel());
-			ps.setBoolean(13, false);
+			ps.setString(7, pessoa.getTelefone());
+			ps.setString(8, pessoa.getEmail());
+			ps.setString(9, pessoa.getLogradouro());
+			ps.setString(10, pessoa.getNumero());
+			ps.setString(11, pessoa.getCidade());
+			ps.setString(12, pessoa.getUf());
+			ps.setString(13, pessoa.getCep());
+			ps.setInt(14, pessoa.getNivel());
+			ps.setBoolean(15, false);
 			int rowsAffected = ps.executeUpdate();
 			
 			if(rowsAffected > 0) {
@@ -164,12 +166,58 @@ public class PessoaDaoJDBC implements PessoaDao {
 			
 			while(rs.next()) {
 				Pessoa pessoa = new Pessoa();
+				pessoa.setId(rs.getInt("id"));
 				pessoa.setNome(rs.getString("nome"));
 				pessoa.setIdade(rs.getInt("idade"));
 				pessoa.setCpf(rs.getString("cpf"));
 				pessoa.setProfissao(rs.getString("profissao"));
 				pessoa.setAreaSaude(rs.getBoolean("areaSaude"));
 				pessoa.setNascimento(rs.getDate("nascimento"));
+				pessoa.setNivel(rs.getInt("nivel_prioridade"));
+				pessoa.setVacinado(rs.getBoolean("vacinado"));
+				pessoa.setDataVacinado(rs.getDate("dataVacinacao"));
+				listPessoa.add(pessoa);
+			}
+			
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(ps);
+			DB.closeResultSet(rs);
+		}
+		return listPessoa;
+	}
+	/**
+	 * Enviar informação detalhada do paciente cadastrado:
+	 */
+	@Override
+	public List<Pessoa> listarDetalhe() {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Pessoa> listPessoa = new ArrayList<>();
+		try {
+			ps = conn.prepareStatement("SELECT * FROM tb_pessoa ");
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Pessoa pessoa = new Pessoa();
+				pessoa.setId(rs.getInt("id"));
+				pessoa.setNome(rs.getString("nome"));
+				pessoa.setIdade(rs.getInt("idade"));
+				pessoa.setCpf(rs.getString("cpf"));
+				pessoa.setProfissao(rs.getString("profissao"));
+				pessoa.setAreaSaude(rs.getBoolean("areaSaude"));
+				pessoa.setTelefone(rs.getString("telefone"));
+				pessoa.setEmail(rs.getString("email"));
+				pessoa.setNascimento(rs.getDate("nascimento"));
+				pessoa.setLogradouro(rs.getString("logradouro"));
+				pessoa.setNumero(rs.getString("numero"));
+				pessoa.setCidade(rs.getString("cidade"));
+				pessoa.setUf(rs.getString("uf"));
+				pessoa.setCep(rs.getString("cep"));
 				pessoa.setNivel(rs.getInt("nivel_prioridade"));
 				pessoa.setVacinado(rs.getBoolean("vacinado"));
 				pessoa.setDataVacinado(rs.getDate("dataVacinacao"));
@@ -217,31 +265,4 @@ public class PessoaDaoJDBC implements PessoaDao {
 		}
 	}
 
-	/**
-	 * Buscar data:
-	 */
-	@Override
-	public List<Date> buscarData() {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		List<Date> listData = new ArrayList<>();
-		try {
-			ps = conn.prepareStatement("SELECT * FROM tb_pessoa ");
-			Pessoa pessoa = new Pessoa();
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				pessoa.setDataVacinado(rs.getDate("dataVacinacao"));
-				listData.add(pessoa.getDataVacinado());
-				return listData ;
-			}
-			return null;
-		}
-		catch(SQLException e) {
-			throw new DbException(e.getMessage());
-		}
-		finally {
-			DB.closeStatement(ps);
-			DB.closeResultSet(rs);
-		}
-	}
 }

@@ -30,7 +30,4 @@ public interface UsuarioDao {
 	 * @return
 	 */
 	boolean existe(Usuario usuario);
-	List<Usuario> autenticar();
-	
-
 }

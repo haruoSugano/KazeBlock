@@ -38,7 +38,9 @@ public interface PessoaDao {
 	 */
 	void deleteByCpf(String cpf);
 	/**
-	 * Buscar data:
+	 * Enviar informação detalhada do paciente
+	 * @return
 	 */
-	List<Date> buscarData();
+	List<Pessoa> listarDetalhe();
+	
 }

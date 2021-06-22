@@ -12,14 +12,16 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 
 import db.DB;
 import model.dao.DaoFactory;
@@ -33,12 +35,12 @@ public class TelaLogin extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField cpfFields;
 	private JPasswordField senhaFields;
 
 	UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
 	Connection conn = null;
-	ImageIcon imagem = new ImageIcon(getClass().getResource("logoTipo2.JPG"));
+	
+	ImageIcon imagem = new ImageIcon(getClass().getResource("imagem\\logoTipo2.JPG"));
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -57,6 +59,7 @@ public class TelaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaLogin() {
+		setTitle("Login");
 		
 		conn = DB.getConnection();
 		
@@ -74,30 +77,40 @@ public class TelaLogin extends JFrame {
 		login.setBounds(12, 10, 289, 286);
 		contentPane.add(login);
 		
-		cpfFields = new JTextField();
+		JFormattedTextField cpfFields = new JFormattedTextField(setFormatar("###########"));
+		cpfFields.setHorizontalAlignment(SwingConstants.LEFT);
+		cpfFields.setFont(new Font("Arial", Font.BOLD, 15));
 		cpfFields.setBorder(new TitledBorder(null, "CPF", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		cpfFields.setBounds(323, 60, 289, 49);
+		cpfFields.setBounds(323, 54, 289, 50);
 		contentPane.add(cpfFields);
-		cpfFields.setColumns(10);
-		
+
 		/**
 		 * Realizando o login:
 		 */
 		JButton enterButton = new JButton("Entrar");
+		enterButton.setFont(new Font("Arial", Font.BOLD, 15));
 		enterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario usuario = new Usuario();
-				boolean autenticadorAdm = false;
-				boolean autenticadorAtend = false;
 				List<Usuario> listUsuario = new ArrayList<>();
-			
+				/**
+				 * Trazendo os valores do banco de dados: e colocando em uma lista
+				 */
 				for(Usuario user : usuarioDao.listUsuario()) {
 					listUsuario.add(user);
 				}
+				
 				usuario.setCpf(cpfFields.getText());
 				usuario.setSenha(senhaFields.getText());
+				/**
+				 * Autenticando o usuário se ela existe:
+				 */
+			
 				if(usuarioDao.existe(usuario)) {
 				for(int i=0; i<listUsuario.size(); i++) {
+					/**
+					 * Caso o usuario e do tipo Administrador:
+					 */
 					if(listUsuario.get(i).getCpf().equals(cpfFields.getText()) && listUsuario.get(i).getSenha().equals(senhaFields.getText())
 							&& listUsuario.get(i).getTipoUsuario().equals("administrador")) {
 						JOptionPane.showMessageDialog(null, "Bem vindo!!");
@@ -106,10 +119,13 @@ public class TelaLogin extends JFrame {
 						dispose();//Fecha a janela de login 
 						break;
 					}
+					/**
+					 * Caso usuário é do tipo atendente:
+					 */
 					else if(listUsuario.get(i).getCpf().equals(cpfFields.getText()) && listUsuario.get(i).getSenha().equals(senhaFields.getText())
 							&& listUsuario.get(i).getTipoUsuario().equals("atendente")) {
 						JOptionPane.showMessageDialog(null, "Bem vindo!!");
-						TelaPrincipal_Atend principal = new TelaPrincipal_Atend();
+						VisualizarFila_Atend  principal = new VisualizarFila_Atend();
 						principal.setVisible(true);
 						dispose();//Fecha a janela de login 
 						break;
@@ -117,7 +133,11 @@ public class TelaLogin extends JFrame {
 				}
 				}
 				else {
+					JOptionPane.showMessageDialog(null, usuario.getCpf()
+							+ "\n");
 					JOptionPane.showMessageDialog(null, "Usuário não existe!!");
+					cpfFields.setText("");
+					senhaFields.setText("");
 				}
 			}
 			
@@ -131,6 +151,8 @@ public class TelaLogin extends JFrame {
 		contentPane.add(status);
 		
 		senhaFields = new JPasswordField();
+		senhaFields.setHorizontalAlignment(SwingConstants.LEFT);
+		senhaFields.setFont(new Font("Arial", Font.BOLD, 15));
 		senhaFields.setBorder(new TitledBorder(null, "Senha", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		senhaFields.setBounds(323, 131, 289, 50);
 		contentPane.add(senhaFields);
@@ -138,6 +160,7 @@ public class TelaLogin extends JFrame {
 		 * Fechando o programa:
 		 */
 		JButton sairButton = new JButton("Sair");
+		sairButton.setFont(new Font("Arial", Font.BOLD, 15));
 		sairButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -147,6 +170,9 @@ public class TelaLogin extends JFrame {
 		contentPane.add(sairButton);
 		
 		
+		/**
+		 * Para saber se o programa esta conectado com o banco de dados:
+		 */
 		//Mudar a label Status na tela de login para:
 		if (conn != null) {
 			status.setText("Conectado");
@@ -157,5 +183,19 @@ public class TelaLogin extends JFrame {
 		
 		setLocationRelativeTo(null);
 	}
+	
+	private MaskFormatter setFormatar(String formatar) {
+		MaskFormatter mask = null;
+		try {
+			mask = new MaskFormatter(formatar);
+			mask.setPlaceholderCharacter('_');
+		}
+		catch(Exception e) {
+			e.getMessage();
+		}
+		return mask;
+	}
+	
+
 
 }

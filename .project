@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>KazaBlock_V1.0A</name>
+	<name>KazeBlock</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/view/logoTipo8.JPG</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/Acesso/Materiais%20para%20projeto/logoTipo8.JPG</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

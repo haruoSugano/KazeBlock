@@ -119,6 +119,7 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 	}
 /**
  * Buscar usuario pelo id no banco de dados:
+ * Usado em remoção de um usuário
  */
 	@Override
 	public Usuario UsuarioById(Integer id) {
@@ -148,6 +149,7 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 	}
 	/**
 	 * Buscar o usuario pelo cpf no bd
+	 * Usado para verificação de repetição de cadastro:
 	 */
 	@Override
 	public Usuario UsuarioByCpf(String cpf) {
@@ -177,6 +179,7 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 	}
 /**
  * Listar o usuários na tabela:
+ * Usado para exibir na tabela os usuário cadastrado:
  */
 	@Override
 	public List<Usuario> listUsuario() {
@@ -210,35 +213,4 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		return listUsuario;
 	}
 
-	/**
-	 * Lista usado para listar os usuarios e autenticar para realizar o login:
-	 */
-	@Override
-	public List<Usuario> autenticar() {
-		
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		List<Usuario> autenticarUsuario = new ArrayList<>();
-		try {
-			ps = conn.prepareStatement("SELECT * FROM tb_usuario ");
-			
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				Usuario usuario = new Usuario();
-				usuario.setCpf(rs.getString("cpf"));
-				usuario.setTipoUsuario(rs.getString("tipoUsuario"));
-				autenticarUsuario.add(usuario);
-			}
-			
-		}
-		catch(SQLException e) {
-			throw new DbException(e.getMessage());
-		}
-		finally {
-			DB.closeStatement(ps);
-			DB.closeResultSet(rs);
-		}
-		return autenticarUsuario;
-	}
 }
