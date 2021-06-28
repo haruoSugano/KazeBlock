@@ -40,8 +40,6 @@ public class TelaLogin extends JFrame {
 	UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
 	Connection conn = null;
 	
-	ImageIcon imagem = new ImageIcon(getClass().getResource("imagem\\logoTipo2.JPG"));
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -72,7 +70,7 @@ public class TelaLogin extends JFrame {
 		getContentPane().setBackground(SystemColor.activeCaption);
 	
 		
-		JLabel login = new JLabel(imagem);
+		JLabel login = new JLabel(new ImageIcon("C:\\Users\\haruo\\eclipse-workspace\\KazeBlock\\src\\view\\imagem\\logoTipo2.JPG"));
 		login.setFont(new Font("Times New Roman", Font.PLAIN, 26));
 		login.setBounds(12, 10, 289, 286);
 		contentPane.add(login);

@@ -176,7 +176,7 @@ public class VisualizarFila_Adm extends JFrame {
 								+ "\nJá foi vacinada?: " + vacinado 
 								+ "\nData em que foi vacinada: " + data
 								+ "\nO seu nível de prioridade: " + listPessoa.get(i).getNivel();
-						JOptionPane.showMessageDialog(null, dado, "Informação do paciente", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, dados, "Informação do paciente", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}

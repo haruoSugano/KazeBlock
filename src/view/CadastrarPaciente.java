@@ -53,7 +53,6 @@ public class CadastrarPaciente extends JFrame {
 
 	Connection conn = null;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	ImageIcon imagem = new ImageIcon(getClass().getResource("imagem\\logoTipo8.JPG"));
 	PessoaDao pessoaDao = DaoFactory.createPessoaDao();
 	Object[] opcoes = {"Sim", "Não"};
 	private JTable table;
@@ -113,7 +112,7 @@ public class CadastrarPaciente extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-				JLabel imagemLabel = new JLabel(imagem);
+				JLabel imagemLabel = new JLabel(new ImageIcon("C:\\Users\\haruo\\eclipse-workspace\\KazeBlock\\src\\view\\imagem\\logoTipo8.JPG"));
 				imagemLabel.setBounds(457, 10, 254, 413);
 				panel.add(imagemLabel);
 				imagemLabel.setBackground(SystemColor.activeCaption);
@@ -473,7 +472,7 @@ public class CadastrarPaciente extends JFrame {
 									JOptionPane.WARNING_MESSAGE, null, opcoes, null);
 							if (escolha == JOptionPane.YES_OPTION) {
 								pessoaDao.deleteByCpf(cpfText.getText());
-								JOptionPane.showMessageDialog(null, "Usuário removido com sucesso.");
+								JOptionPane.showMessageDialog(null, "Paciente removido com sucesso.");
 								pesquisar();
 							}
 							else {

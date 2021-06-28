@@ -243,7 +243,7 @@ public class GerarRelatorio extends JFrame {
 					 */
 					LocalDate data1 = LocalDate.parse(dataInicial, dtf);
 
-					int cont1 = 0, cont2 = 0, cont3 = 0, cont4 = 0, total = 0, totalCadastrado = 0;
+					int cont1 = 0, cont2 = 0, cont3 = 0, cont4 = 0, total = 0, totalV = 0;
 					/**
 					 * Para que faca a busca de data e contando as pessoas vacinadas em determinado dia
 					 */
@@ -297,15 +297,21 @@ public class GerarRelatorio extends JFrame {
 					/**
 					 * Somando total de cadastrado:
 					 */
-					totalCadastrado = list.size();
+					for(int i=0; i<list.size(); i++) {
+						if(list.get(i).getVacinado() == true) {
+							totalV++;
+						}
+						
+					}
 					/**
 					 * Para mostrar a diferenca de pessoas já vacinada
 					 */
-					int falta = totalCadastrado - total;
+						int falta = list.size() - totalV;
+					
 					/**
 					 * Mostrar em porcentagem pessoas que faltam:
 					 */
-					double x = 100 -((total*100)/(totalCadastrado));
+					double x = 100 -((totalV*100)/(list.size()));
 					/**
 					 * Mostrando no campo texto o resultado da média de vacinado:
 					 */
@@ -318,15 +324,15 @@ public class GerarRelatorio extends JFrame {
 					else if(cont1 > 0 || cont2 > 0 || cont3 > 0 || cont4 > 0){
 						relatorio = "Relatório: "
 								+"\nDe Pessoas Vacinadas:"
-								+ "\nNo período de " + dataInicial + " até " + dataFinal
+								+ "\nNo período de " + dataInicialText.getText() + " até " + dataFinalText.getText()
 								+"\nI- Acima de 90 anos: " + (cont1*100/total) + "%"
 								+"\nII- Entre 70 a 90 anos: " + (cont2*100/total) + "%"
 								+"\nIII- Entre 50 a 70 anos: " + (cont3*100/total) + "%"
 								+"\nIV- Abaixo de 50 anos: " + (cont4*100/total) + "%"
-								+"\nTotal de vacinados:  " + total
-								+"\nTotal cadastrado: " + totalCadastrado
+								+"\nTotal de vacinados:  " + totalV
+								+"\nTotal cadastrado: " + list.size()
 								+"\nFaltando: " + falta + " pessoas a serem vacinada."
-								+"\nNo total de " + totalCadastrado + " pessoas cadastradas, " + x + "%" + " ainda não foram vacinada.";
+								+"\nNo total de " + list.size() + " pessoas cadastradas, " + x + "%" + " ainda não foram vacinada.";
 						painelRelatorio.setText(relatorio);
 					}
 					/**
@@ -353,7 +359,6 @@ public class GerarRelatorio extends JFrame {
 								try {
 									PdfWriter.getInstance(document, new FileOutputStream(RESULT));
 								} catch (FileNotFoundException | DocumentException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								document.open();
@@ -361,13 +366,11 @@ public class GerarRelatorio extends JFrame {
 									document.add(new Paragraph(relatorio));
 
 								} catch (DocumentException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								try {
 									Desktop.getDesktop().open(new File("C:\\temp\\RelatorioVacina.pdf"));
 								} catch (IOException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								} finally {
 									document.close();
